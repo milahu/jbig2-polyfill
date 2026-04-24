@@ -48,10 +48,20 @@ but implemented in HTML
 
 ## limitations
 
+
+
+### no file protocol
+
 the polyfill does not work over the file protocol,
 because we cannot
 [fetch](https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API/Using_Fetch)
 the JBIG2 image
+
+
+
+### requires javascript
+
+the polyfill requires JavaScript ans WebAssembly (WASM)
 
 
 
@@ -104,3 +114,10 @@ https://cgit.freedesktop.org/poppler/poppler/tree/poppler/JBIG2Stream.cc
 
 the TIFF format supports JBIG2 compression in theory,
 but many tools (like imagemagick or GIMP) dont support it
+
+
+
+## similar projects
+
+- https://github.com/mozilla/pdf.js/blob/master/external/jbig2/jbig2.js
+- https://github.com/milahu/group4-polyfill
