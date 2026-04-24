@@ -23,7 +23,7 @@ ls img/*.jbig2 | sed 's|.*|<img title="\0" src="\0">|'
 
 <script type="module">
 
-// FIXME lazy-load the module in replaceTiffImages
+// FIXME lazy-load the module in replaceJBIG2Images
 // only when TIFF images were found
 const jbig2_polyfill = await create_jbig2_polyfill_module();
 
@@ -71,7 +71,7 @@ async function decodeTiffToBMP(url) {
   return bmp;
 }
 
-async function replaceTiffImages() {
+async function replaceJBIG2Images() {
   const images = document.querySelectorAll("img");
 
   for (const img of images) {
@@ -91,7 +91,7 @@ async function replaceTiffImages() {
   }
 }
 
-replaceTiffImages();
+replaceJBIG2Images();
 
 </script>
 
