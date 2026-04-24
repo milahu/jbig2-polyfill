@@ -1,0 +1,3 @@
+[submodule "src/third_party/jbig2dec"]
+	path = src/third_party/jbig2dec
+	url = https://github.com/ArtifexSoftware/jbig2dec
