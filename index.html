@@ -16,7 +16,7 @@ ls img/*.jbig2 | sed 's|.*|<img title="\0" src="\0">|'
 
 
 <!-- NOTE this breaks on file URLs
-  but decodeTiffToBMP does not work on file URLs anyway
+  but decodeJBIG2ToBMP does not work on file URLs anyway
   https://stackoverflow.com/questions/61052684/how-to-load-a-wasm-module-locally
 -->
 <script src="build-wasm/jbig2-polyfill.js"></script>
@@ -24,7 +24,7 @@ ls img/*.jbig2 | sed 's|.*|<img title="\0" src="\0">|'
 <script type="module">
 
 // FIXME lazy-load the module in replaceJBIG2Images
-// only when TIFF images were found
+// only when JBIG2 images were found
 const jbig2_polyfill = await create_jbig2_polyfill_module();
 
 // const jbig2_to_bmp = jbig2_polyfill.cwrap(
@@ -37,7 +37,7 @@ const jbig2_to_bmp = jbig2_polyfill._jbig2_to_bmp;
 // const free_buffer = jbig2_polyfill.cwrap("free_buffer", null, ["number"]);
 const free_buffer = jbig2_polyfill._free_buffer;
 
-async function decodeTiffToBMP(url) {
+async function decodeJBIG2ToBMP(url) {
   // WONTFIX this will never work over the file protocol
   // Access to fetch at 'file:...' from origin 'null' has been blocked by CORS policy
   const res = await fetch(url);
@@ -56,7 +56,7 @@ async function decodeTiffToBMP(url) {
   );
 
   if (!outPtr) {
-    // throw new Error("TIFF decode failed");
+    // throw new Error("JBIG2 decode failed");
     return;
   }
 
@@ -78,15 +78,15 @@ async function replaceJBIG2Images() {
     if (!img.src.endsWith(".jbig2") && !img.src.endsWith(".jb2")) continue;
 
     try {
-      const bmpData = await decodeTiffToBMP(img.src);
+      const bmpData = await decodeJBIG2ToBMP(img.src);
 
       const blob = new Blob([bmpData], { type: "image/bmp" });
       const url = URL.createObjectURL(blob);
 
       img.src = url;
     } catch (e) {
-      // TIFF decode failed: Only 1-bit supported
-      console.error(`TIFF decode failed: ${e.message} @ ${img.src}`);
+      // JBIG2 decode failed: Only 1-bit supported
+      console.error(`JBIG2 decode failed: ${e.message} @ ${img.src}`);
     }
   }
 }
